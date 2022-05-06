@@ -63,7 +63,7 @@ const Signup = () => {
         </div>
         <div>
         <form className='signupForm'  action=""  onSubmit={hanldeSubmit}>
-        <h2>Add Employee Details</h2>
+        
         <div>
           <label> First Name : </label><br />
           <input
