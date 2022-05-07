@@ -1,58 +1,28 @@
 import React from 'react'
-import { useState ,useEffect} from "react";
-import { useSelector } from 'react-redux';
-import Login from './Login';
+import { useState } from "react";
+import { useContext } from 'react';
+import { AuthContext } from './complex2/AuthProvider';
+
 import "./Main.css";
 const Signup = () => {
-  const [formData, setFormData] = useState({
-    
-  });
-  const { isAuth, isLoading, isError } = useSelector((state) => state.auth);
+  
+  const [form,setForm]=useState({});
+  const { Signupform } = useContext(AuthContext);
 
-  //Handle CLick
-  const handleChange = (e) => {
-    let type = e.target.type;
-    let name = e.target.name;
-    console.log(type);
+  const handleChange=(e)=>{
+      let input=e.target;
 
-    if (type === "text" || type === "number" ) {
-      setFormData({ ...formData, [name]: e.target.value, });
-    } else if (type === "textarea") {
-      setFormData({ ...formData, [name]: e.target.value });
-    } else if (type === "select-one") {
-      setFormData({ ...formData, [name]: e.target.value });
-    } else {
-      setFormData({ ...formData, [name]: e.target.checked });
-    }
-  };
+      setForm({ ...form,[input.name]:input.value});
+  }
 
-  //Post data
-  const postData = async () => {
-    try {
-      let res = await fetch("http://localhost:8080/Register", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+  const handleSubmit=(e)=>{
+      e.preventDefault();
+      Signupform(form);
 
-      let data = await res.json();
-      console.log(data)
-      setFormData([...formData, data]);
-      
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  }
  
-  //Form Submit
-
-  const hanldeSubmit = (e) => {
-    e.preventDefault();
-    postData();
-    
-
-  };
+ 
+ 
   return (
     <div className='Signup'>
         <div>
@@ -62,8 +32,8 @@ const Signup = () => {
             <p>Create an Account</p>
         </div>
         <div>
-        <form className='signupForm'  action=""  onSubmit={hanldeSubmit}>
-        
+        <form className='signupForm'  action=""  onSubmit={handleSubmit}>
+      
         <div>
           <label> First Name : </label><br />
           <input
@@ -71,7 +41,7 @@ const Signup = () => {
             type="text"
             name="FirstName"
             placeholder="Enter first name"
-            onChange={handleChange}
+            
             required
           /><br /><br />
         </div>
@@ -82,7 +52,7 @@ const Signup = () => {
             type="text"
             name="LastName"
             placeholder="Enter last name"
-            onChange={handleChange}
+            
             required
           /><br /><br />
           
@@ -95,16 +65,16 @@ const Signup = () => {
         <div>
         <label>Conform Email: </label><br />
         
-          <input className='ipt' type="email" name="email" onChange={handleChange} /><br /><br />
+          <input className='ipt' type="email" name="email"  /><br /><br />
         </div>
        
         <div>
           <label>ZipCode: </label><br />
-          <input className='ipt' type="number" name="zip" onChange={handleChange} /><br /><br />
+          <input className='ipt' type="number" name="zip"  /><br /><br />
         </div>
         <div>
           <label>Phone No: </label><br />
-          <input className='ipt' type="number" name="mobile" onChange={handleChange} /><br />
+          <input className='ipt' type="number" name="mobile"  /><br />
           <p>We'll use this to look up your Rewards account in stores.</p><br /><br />
         </div>
         <div>
